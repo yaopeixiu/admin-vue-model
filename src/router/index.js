@@ -44,15 +44,25 @@ export const constantRoutes = [
   },
 
   {
-    path: '/',
+    path: '/baidu',
     component: Layout,
-    redirect: '/baidu',
-    children: [{
-      path: 'baidu',
-      name: 'Baidu',
-      component: () => import('@/views/baidu/index'),
-      meta: { title: '百度地图', icon: 'baidu' }
-    }]
+    redirect: '/baidu/monitor',
+    name: 'Monitor',
+    meta: { title: '实时监控', icon: 'monitor' },
+    children: [
+      {
+        path: 'monitor',
+        name: 'Monitor',
+        component: () => import('@/views/baidu/monitor'),
+        meta: { title: '实时监控', icon: 'monitor' }
+      },
+      {
+        path: 'baidu',
+        name: 'Baidu',
+        component: () => import('@/views/baidu/index'),
+        meta: { title: '百度地图', icon: 'baidu' }
+      }
+    ]
   },
 
   {
@@ -64,6 +74,30 @@ export const constantRoutes = [
       name: 'Dashboard',
       component: () => import('@/views/dashboard/index'),
       meta: { title: 'Dashboard', icon: 'dashboard' }
+    }]
+  },
+
+  {
+    path: '/',
+    component: Layout,
+    redirect: '/register',
+    children: [{
+      path: 'register',
+      name: 'Register_submit',
+      component: () => import('@/views/register-submit/index'),
+      meta: { title: 'Register', icon: 'register' }
+    }]
+  },
+
+  {
+    path: '/',
+    component: Layout,
+    redirect: '/login1',
+    children: [{
+      path: 'login1',
+      name: 'Login1',
+      component: () => import('@/views/login/index'),
+      meta: { title: 'Login1', icon: 'login1' }
     }]
   },
 

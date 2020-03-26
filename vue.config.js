@@ -24,17 +24,32 @@ module.exports = {
    * In most cases please use '/' !!!
    * Detail: https://cli.vuejs.org/config/#publicpath
    */
+  //项目部署路径
   publicPath: '/',
+  //
   outputDir: 'dist',
   assetsDir: 'static',
   lintOnSave: process.env.NODE_ENV === 'development',
   productionSourceMap: false,
   devServer: {
-    port: port,
-    open: true,
+    port: 8085,
+    //true 自动启动浏览器
+    open: false,
+    //错误警告在页面弹出
     overlay: {
       warnings: false,
       errors: true
+    },
+    proxy: {
+      '/apis': {
+        target: 'http://192.168.173',
+        // ws: true,
+        //允许websockets跨域
+        changeOrigin: true,
+        pathRewrite: {
+          '^/apis': ''
+        }
+      }
     },
     before: require('./mock/mock-server.js')
   },
