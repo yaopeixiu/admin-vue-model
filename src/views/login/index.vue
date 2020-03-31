@@ -48,25 +48,11 @@
 </template>
 
 <script>
-import { validUsername } from '@/utils/validate'
+import { handleLogin } from '@/api/user'
 
 export default {
   name: 'Login',
   data() {
-    const validateUsername = (rule, value, callback) => {
-      if (!validUsername(value)) {
-        callback(new Error('请输入正确的用户名'))
-      } else {
-        callback()
-      }
-    }
-    const validatePassword = (rule, value, callback) => {
-      if (value.length < 6) {
-        callback(new Error('密码不能少于六位'))
-      } else {
-        callback()
-      }
-    }
     return {
       loginForm: {
         username: 'SuperQueen',
@@ -100,21 +86,34 @@ export default {
         this.$refs.password.focus()
       })
     },
+    getLoginData() {
+      const password = this.password;
+      console.log(password)
+      const username = this.username;
+      return {
+        password: password,
+        username: username
+      };
+    },
+    login(){
+      let loginData = this.getLoginData();
+      this.routerRedirect();
+      this.$webIm.login();
+    },
+    routerRedirect() {
+      this.$router.push({ name: 'Monitor' });
+    },
     handleLogin() {
-      this.$refs.loginForm.validate(valid => {
-        if (valid) {
-          this.loading = true
-          this.$store.dispatch('user/login', this.loginForm).then(() => {
-            // this.$router.push({ path: this.redirect || '/' })
-            this.$router.push('/baidu/monitor')
-            this.loading = false
-          }).catch(() => {
-            this.loading = false
-          })
-        } else {
-          console.log('error submit!!')
-          return false
-        }
+      handleLogin().then(res => {
+        this.loading = true;
+        console.log(err.message);
+        try {
+          this.login();
+          this.loading = false;
+        } catch (err) {
+          console.log(err.message);
+          this.loading = false;
+        };
       })
     }
   }
@@ -176,10 +175,11 @@ $light_gray:#eee;
 .login-container {
   min-height: 100%;
   width: 100%;
-  background-image: url('../../assets/images/background.png');
-  background-repeat: no-repeat;
-  background-position: 0px 0px;
-  background-size: 100% 100%;
+  /*background-image: url('../../assets/images/background.png');*/
+  /*background-repeat: no-repeat;*/
+  /*background-position: 0px 0px;*/
+  /*background-size: 100% 100%;*/
+  background-color: lightslategray;
   overflow: hidden;
 
   .login-form {

@@ -42,7 +42,7 @@ module.exports = {
     },
     proxy: {
       '/apis': {
-        target: 'http://192.168.173',
+        target: process.env.VUE_APP_BASE_API,
         // ws: true,
         //允许websockets跨域
         changeOrigin: true,
